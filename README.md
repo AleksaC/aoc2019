@@ -1,2 +1,2 @@
 # aoc2019
-My solutions to Advent of Code 2019 puzzles
+My solutions to [Advent of Code 2019](https://adventofcode.com/) puzzles.
