@@ -8,6 +8,7 @@ fn compute(intcode: &mut Vec<i32>, noun: i32, verb: i32) -> i32 {
         let j = intcode[i+3] as usize;
         let k = intcode[i+1] as usize;
         let l = intcode[i+2] as usize;
+
         if intcode[i] == 1 {
             intcode[j] = intcode[k] + intcode[l];
         } else if intcode[i] == 2 {
@@ -27,14 +28,14 @@ fn main() {
         .map(|int| int.parse().unwrap())
         .collect();
 
-    let mut intcode: Vec<i32> = initial_memory.clone();
+    let mut intcode = initial_memory.clone();
     println!("Part one: {}", compute(&mut intcode, 12, 2));
 
-    'outer: for i in 0..=99 {
-        'inner: for j in 0..=99 {
+    'outer: for noun in 0..=99 {
+        'inner: for verb in 0..=99 {
             intcode = initial_memory.clone();
-            if compute(&mut intcode, i, j) == 19690720{
-                println!("Part 2: {}", 100 * i + j);
+            if compute(&mut intcode, noun, verb) == 19690720 {
+                println!("Part 2: {}", 100 * noun + verb);
                 break 'outer;
             }
         }
