@@ -3,7 +3,7 @@ fn fuel_required(mass: i32) -> i32 {
 }
 
 fn main() {
-    let fuel_per_module: Vec<i32> = include_str!("input.txt")
+    let fuel_per_module: Vec<i32> = include_str!("../input.txt")
         .lines()
         .map(|mass| fuel_required(mass.parse::<i32>().unwrap()))
         .collect();
