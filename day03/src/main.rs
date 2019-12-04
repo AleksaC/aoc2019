@@ -40,34 +40,33 @@ fn intersect(vertical: ((i32, i32), (i32, i32)), horizontal: ((i32, i32), (i32, 
     return (x11 - x21) * (x12 - x21) <= 0 && (y21 - y11) * (y22 - y11) <= 0;
 }
 
-fn intersection_distance(line_one: ((i32, i32), (i32, i32)), line_two: ((i32, i32), (i32, i32))) -> i32 {
+fn intersection_distance(line_one: ((i32, i32), (i32, i32)),
+                         line_two: ((i32, i32), (i32, i32))) -> (i32, (i32, i32)) {
     let l1_is_vertical = is_vertical(line_one);
     let l2_is_vertical = is_vertical(line_two);
 
     if l1_is_vertical && l2_is_vertical {
-        return -1;
+        return (-1, (0, 0));
     }
     if !l1_is_vertical && !l2_is_vertical {
-        return -1;
+        return (-1, (0, 0));
     }
 
-    let (vertical, horizontal) = if l1_is_vertical { (line_one, line_two) } else { (line_two, line_one) };
+    let (vertical, horizontal) = if l1_is_vertical { (line_one, line_two) }
+                                                    else { (line_two, line_one) };
 
     if intersect(vertical, horizontal) {
-        let ((_, y11), _) = vertical;
-        let ((x21, _), _) = horizontal;
+        let ((x11, y11), _) = vertical;
+        let ((x21, y21), _) = horizontal;
 
-        return x21.abs() + y11.abs();
+        return (x21.abs() + y11.abs(), ((x21 - x11).abs(), (y11 - y21).abs()));
     }
 
-    return -1;
+    return (-1, (0, 0));
 }
 
 fn main() {
-    let wires: Vec<&str> = include_str!("../input.txt")
-        .trim()
-        .split("\n")
-        .collect();
+    let wires: Vec<&str> = include_str!("../input.txt").trim().split("\n").collect();
 
     let wire_one: Vec<&str> = wires[0].split(",").collect();
     let wire_two: Vec<&str> = wires[1].split(",").collect();
@@ -78,23 +77,39 @@ fn main() {
     assert_eq!(wire_one.len(), wire_one_coords.len());
     assert_eq!(wire_two.len(), wire_two_coords.len());
 
+    let mut min_dist = -1;
+    let mut min_steps = -1;
 
-    let mut min = -1;
+    let mut num_steps_1 = 995;
 
     for i in 1..wire_one_coords.len() {
+        let mut num_steps_2 = 996;
         for j in 1..wire_two_coords.len() {
-            let d = intersection_distance(wire_one_coords[i], wire_two_coords[j]);
+            let (d, (x, y)) = intersection_distance(wire_one_coords[i], wire_two_coords[j]);
             if d != -1 {
-                if min != -1 {
-                    if d < min {
-                        min = d;
+                if min_dist != -1{
+                    if d < min_dist {
+                        min_dist = d;
                     }
                 } else {
-                    min = d;
+                    min_dist = d;
+                }
+                let num_steps = num_steps_1 + num_steps_2 + x + y;
+                if min_steps != -1 {
+                    if num_steps < min_steps {
+                        min_steps = num_steps;
+                    }
+                } else {
+                    min_steps = num_steps;
                 }
             }
+            let ((x11, y11), (x12, y12)) = wire_two_coords[j];
+            num_steps_2 += (x11 - x12 + y11 - y12).abs();
         }
+        let ((x11, y11), (x12, y12)) = wire_one_coords[i];
+        num_steps_1 += (x11 - x12 + y11 - y12).abs();
     }
 
-    println!("Part one: {}", min);
+    println!("Part one: {}", min_dist);
+    println!("Part two: {}", min_steps);
 }
