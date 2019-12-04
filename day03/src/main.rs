@@ -80,10 +80,12 @@ fn main() {
     let mut min_dist = -1;
     let mut min_steps = -1;
 
-    let mut num_steps_1 = 995;
+    let ((x11, y11), (x12, y12)) = wire_one_coords[0];
+    let mut num_steps_1 = (x11 - x12 + y11 - y12).abs();
 
     for i in 1..wire_one_coords.len() {
-        let mut num_steps_2 = 996;
+        let ((x11, y11), (x12, y12)) = wire_two_coords[0];
+        let mut num_steps_2 = (x11 - x12 + y11 - y12).abs();
         for j in 1..wire_two_coords.len() {
             let (d, (x, y)) = intersection_distance(wire_one_coords[i], wire_two_coords[j]);
             if d != -1 {
