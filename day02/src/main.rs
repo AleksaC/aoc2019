@@ -35,7 +35,7 @@ fn main() {
         'inner: for verb in 0..=99 {
             intcode = initial_memory.clone();
             if compute(&mut intcode, noun, verb) == 19690720 {
-                println!("Part 2: {}", 100 * noun + verb);
+                println!("Part two: {}", 100 * noun + verb);
                 break 'outer;
             }
         }
