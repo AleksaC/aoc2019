@@ -53,7 +53,7 @@ fn intersection_distance(line_one: ((i32, i32), (i32, i32)),
     }
 
     let (vertical, horizontal) = if l1_is_vertical { (line_one, line_two) }
-                                                    else { (line_two, line_one) };
+                                    else { (line_two, line_one) };
 
     if intersect(vertical, horizontal) {
         let ((x11, y11), _) = vertical;
