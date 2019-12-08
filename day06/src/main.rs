@@ -63,7 +63,7 @@ fn main() {
                 match visited.get(san.unwrap()) {
                     Some(transfers_from) => {
                         println!("Part two: {}", transfers_from + num_transfers);
-                        return;
+                        break;
                     }
                     None => {}
                 }
