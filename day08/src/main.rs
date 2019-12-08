@@ -9,7 +9,7 @@ fn main() {
     let h = 6;
 
     let layer_size = w * h;
-    let num_layers = image.len() / (layer_size);
+    let num_layers = image.len() / layer_size;
 
     let mut min_zeros = layer_size + 1;
     let mut min_zeros_index = 1;
@@ -17,7 +17,7 @@ fn main() {
     for i in 1..=num_layers {
         let mut num_zeros = 0;
         for j in 0..layer_size {
-            if image[(i - 1) * layer_size + j] == 0{
+            if image[(i - 1) * layer_size + j] == 0 {
                 num_zeros += 1;
             }
         }
@@ -49,7 +49,7 @@ fn main() {
         for j in 1..=num_layers {
             let pixel = image[(j - 1) * layer_size + i];
             if pixel != 2 {
-                print!("{}", if pixel == 1 {"█"} else {" "});
+                print!("{}", if pixel == 1 { "█" } else { " " });
                 continue 'outer;
             }
         }
